@@ -26,15 +26,11 @@ export async function registerController(app: FastifyInstance) {
       const userRepository = new PrismaUserRepository()
       const registerUseRepository = new RegisterUseCase(userRepository)
 
-      try {
-        await registerUseRepository.execute({
-          name,
-          email,
-          password,
-        })
-      } catch (error) {
-        return reply.status(409).send()
-      }
+      await registerUseRepository.execute({
+        name,
+        email,
+        password,
+      })
 
       return reply.status(201).send()
     }
