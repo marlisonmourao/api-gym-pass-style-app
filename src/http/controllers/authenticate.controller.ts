@@ -2,8 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { PrismaUserRepository } from '@/repositories/prisma/prisma-users-repository'
-import { AuthenticateUseCase } from '@/use-cases/authenticate-use-case'
+import { makeAuthenticateUseCase } from '@/use-cases/factores/make-authenticate-use-case'
 
 export async function authenticateController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -22,10 +21,9 @@ export async function authenticateController(app: FastifyInstance) {
     async (request, reply) => {
       const { email, password } = request.body
 
-      const userRepository = new PrismaUserRepository()
-      const registerUseRepository = new AuthenticateUseCase(userRepository)
+      const authenticateUseCase = makeAuthenticateUseCase()
 
-      await registerUseRepository.execute({
+      await authenticateUseCase.execute({
         email,
         password,
       })
