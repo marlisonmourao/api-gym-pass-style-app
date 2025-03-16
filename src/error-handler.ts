@@ -3,6 +3,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import { InvalidCredentialsError } from './use-cases/errors/invalid-credentials-error'
 import { UserAlreadyExistsError } from './use-cases/errors/user-already-exists-error'
+import { ResourceNotFoundError } from './use-cases/errors/resource-not-found-error'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
@@ -26,6 +27,14 @@ export const errorHandler: FastifyErrorHandler = (error, _, reply) => {
       message: error.message,
     })
   }
+
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(400).send({
+        message: error.message,
+      })
+    }
+
+  ResourceNotFoundError
 
   if (error instanceof InvalidCredentialsError) {
     return reply.status(400).send({

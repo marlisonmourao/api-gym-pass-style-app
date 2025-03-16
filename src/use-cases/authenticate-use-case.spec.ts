@@ -14,9 +14,6 @@ beforeEach(() => {
 
 describe('Authenticate Use Case', () => {
   it('should be able to authenticate', async () => {
-    const usersRepository = new InMemoryUserRepository()
-    const sut = new AuthenticateUseCase(usersRepository)
-
     await usersRepository.create({
       name: 'John Doe',
       email: 'john@email.com',
@@ -32,9 +29,6 @@ describe('Authenticate Use Case', () => {
   })
 
   it('should not be able to authenticate with wrong email', async () => {
-    const usersRepository = new InMemoryUserRepository()
-    const sut = new AuthenticateUseCase(usersRepository)
-
     await expect(
       sut.execute({
         email: 'john@email.com',
