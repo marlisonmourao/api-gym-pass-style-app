@@ -2,7 +2,8 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { registerUseCase } from '@/use-cases/register-use-case'
+import { PrismaUserRepository } from '@/repositories/prisma/prisma-users-repository'
+import { RegisterUseCase } from '@/use-cases/register-use-case'
 
 export async function registerController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -22,8 +23,11 @@ export async function registerController(app: FastifyInstance) {
     async (request, reply) => {
       const { name, email, password } = request.body
 
+      const userRepository = new PrismaUserRepository()
+      const registerUseRepository = new RegisterUseCase(userRepository)
+
       try {
-        await registerUseCase({
+        await registerUseRepository.execute({
           name,
           email,
           password,
