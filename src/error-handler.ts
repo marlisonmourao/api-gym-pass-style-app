@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import { ZodError } from 'zod'
 import { env } from './env'
 import { InvalidCredentialsError } from './use-cases/errors/invalid-credentials-error'
+import { LateCheckInValidationError } from './use-cases/errors/late-check-in-validation-error'
 import { MaxDistanceError } from './use-cases/errors/max-distance-error'
 import { MaxNumberOfCheckInsError } from './use-cases/errors/max-number-of-check-ins-error'
 import { ResourceNotFoundError } from './use-cases/errors/resource-not-found-error'
@@ -27,6 +28,13 @@ export const errorHandler: FastifyErrorHandler = (error, _, reply) => {
   if (error instanceof MaxDistanceError) {
     return reply.status(400).send({
       message: 'Max distance error.',
+      errors: error.message,
+    })
+  }
+
+  if (error instanceof LateCheckInValidationError) {
+    return reply.status(400).send({
+      message: 'Late check-in validation error.',
       errors: error.message,
     })
   }
