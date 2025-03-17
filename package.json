@@ -10,7 +10,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.mts",
+    "test:e2e:watch": "vitest --config ./vitest.config.e2e.mts"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +27,7 @@
     "tsup": "8.4.0",
     "tsx": "4.19.3",
     "typescript": "5.8.2",
+    "unplugin-swc": "1.5.1",
     "vite-tsconfig-paths": "5.1.4",
     "vitest": "3.0.8"
   },
