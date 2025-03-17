@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { makeAuthenticateUseCase } from '@/use-cases/factores/make-authenticate-use-case'
+import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case'
 
 export async function authenticateController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -23,12 +23,21 @@ export async function authenticateController(app: FastifyInstance) {
 
       const authenticateUseCase = makeAuthenticateUseCase()
 
-      await authenticateUseCase.execute({
+      const { user } = await authenticateUseCase.execute({
         email,
         password,
       })
 
-      return reply.status(200).send()
+      const token = await reply.jwtSign(
+        {},
+        {
+          sign: { sub: user.id },
+        }
+      )
+
+      return reply.status(200).send({
+        token,
+      })
     }
   )
 }

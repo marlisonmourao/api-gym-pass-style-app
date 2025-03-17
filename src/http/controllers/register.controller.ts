@@ -2,7 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { makeRegisterUseCase } from '@/use-cases/factores/make-register-use-case'
+import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
 
 export async function registerController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
