@@ -71,7 +71,7 @@ Este projeto é um aplicativo estilo GymPass, que permite aos usuários se cadas
 1. Clone o repositório:
 
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/marlisonmourao/api-gym-pass-style-app.git
    cd api-solid-node
    ```
 
