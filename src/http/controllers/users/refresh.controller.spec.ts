@@ -29,8 +29,6 @@ describe('Refresh token Controller (e2e)', () => {
       .set('Cookie', cookies)
       .send()
 
-    console.log(response.header['set-cookie'])
-
     expect(response.statusCode).toEqual(200)
     expect(response.body).toHaveProperty('token')
     expect(response.headers['set-cookie']).toEqual([
