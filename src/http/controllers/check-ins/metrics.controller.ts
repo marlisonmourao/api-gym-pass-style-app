@@ -5,7 +5,7 @@ import { makeGetUserMetricsUseCase } from '@/use-cases/factories/make-get-user-m
 import z from 'zod'
 
 export async function metricsCheckInController(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().get(
     '/check-ins/metrics',
     {
       schema: {

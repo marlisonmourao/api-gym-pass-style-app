@@ -5,16 +5,16 @@ import z from 'zod'
 import { makeValidateCheckInUseCase } from '@/use-cases/factories/make-validate-check-in-use-case'
 
 export async function validateCheckInController(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
+  app.withTypeProvider<ZodTypeProvider>().patch(
     '/check-ins/:checkInId/validate',
     {
       schema: {
         tags: ['Check-ins'],
         description: 'Validate check-ins',
         summary: 'Validate check-ins',
-        params: {
+        params: z.object({
           checkInId: z.string().uuid(),
-        },
+        }),
         response: {
           204: z.object({}),
         },
