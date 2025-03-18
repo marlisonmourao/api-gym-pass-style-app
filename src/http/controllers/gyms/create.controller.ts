@@ -2,12 +2,14 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
+import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 import { makeCreateGymUseCase } from '@/use-cases/factories/make-create-gym-use-case'
 
 export async function createGymController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
     '/gyms',
     {
+      onRequest: [verifyUserRole('ADMIN')],
       schema: {
         tags: ['Gyms'],
         description: 'Create a new gym',

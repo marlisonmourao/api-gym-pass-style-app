@@ -7,11 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ROLE {
+  MEMBER
+  ADMIN
+}
+
 model User {
   id           String   @id @default(uuid())
   name         String
   email        String   @unique
   passwordHash String   @map("password_hash")
+  role         ROLE     @default(MEMBER)
   createdAt    DateTime @default(now()) @map("created_at")
 
   checkIns CheckIn[]

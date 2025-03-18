@@ -2,20 +2,14 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case'
-
-export async function authenticateController(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().post(
-    '/sessions',
+export async function refreshController(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>().patch(
+    '/token/refresh',
     {
       schema: {
         tags: ['Auth'],
-        description: 'Authenticate user',
-        summary: 'Authenticate user',
-        body: z.object({
-          email: z.string().email(),
-          password: z.string().min(6),
-        }),
+        description: 'Refresh token',
+        summary: 'Refresh token',
         response: {
           200: z.object({
             token: z.string(),
@@ -24,31 +18,28 @@ export async function authenticateController(app: FastifyInstance) {
       },
     },
     async (request, reply) => {
-      const { email, password } = request.body
+      await request.jwtVerify({ onlyCookie: true })
 
-      const authenticateUseCase = makeAuthenticateUseCase()
+      const userId = request.user.sub
 
-      const { user } = await authenticateUseCase.execute({
-        email,
-        password,
-      })
+      const { role } = request.user
 
       const token = await reply.jwtSign(
         {
-          role: user.role,
+          role,
         },
         {
-          sign: { sub: user.id },
+          sign: { sub: userId },
         }
       )
 
       const refreshToken = await reply.jwtSign(
         {
-          role: user.role,
+          role,
         },
         {
           sign: {
-            sub: user.id,
+            sub: userId,
             expiresIn: '7d',
           },
         }

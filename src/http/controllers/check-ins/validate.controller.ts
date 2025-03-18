@@ -2,12 +2,14 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
+import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 import { makeValidateCheckInUseCase } from '@/use-cases/factories/make-validate-check-in-use-case'
 
 export async function validateCheckInController(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
     '/check-ins/:checkInId/validate',
     {
+      onRequest: [verifyUserRole('ADMIN')],
       schema: {
         tags: ['Check-ins'],
         description: 'Validate check-ins',
