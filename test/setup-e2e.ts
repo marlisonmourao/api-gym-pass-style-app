@@ -28,8 +28,6 @@ const databaseUrl = generateUniqueDatabaseUrl(schemaId)
 
 process.env.DATABASE_URL = databaseUrl
 
-console.log(`Using database URL: ${databaseUrl}`)
-
 execSync('npx prisma migrate deploy', {
   env: { ...process.env, DATABASE_URL: databaseUrl },
 })

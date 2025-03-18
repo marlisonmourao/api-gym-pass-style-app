@@ -17,6 +17,11 @@ export async function registerController(app: FastifyInstance) {
           email: z.string().email(),
           password: z.string().min(6),
         }),
+        response: {
+          201: z.object({
+            message: z.string(),
+          }),
+        },
       },
     },
     async (request, reply) => {
