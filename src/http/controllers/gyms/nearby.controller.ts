@@ -47,7 +47,7 @@ export async function nearbyController(app: FastifyInstance) {
         userLongitude: longitude,
       })
 
-      return reply.status(201).send({
+      return reply.status(200).send({
         gyms: gyms.map(gym => ({
           ...gym,
           latitude: gym.latitude.toNumber(),

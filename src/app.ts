@@ -8,6 +8,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { env } from './env'
 import { errorHandler } from './error-handler'
+import { checkInsRouter } from './http/controllers/check-ins/routes'
 import { gymsRouter } from './http/controllers/gyms/routes'
 import { appRoutes } from './http/controllers/users/routes'
 
@@ -23,3 +24,4 @@ app.register(fastifyJwt, {
 
 app.register(appRoutes)
 app.register(gymsRouter)
+app.register(checkInsRouter)

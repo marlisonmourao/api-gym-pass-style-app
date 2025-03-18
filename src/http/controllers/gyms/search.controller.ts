@@ -42,7 +42,7 @@ export async function searchGymController(app: FastifyInstance) {
         page,
       })
 
-      return reply.status(201).send({
+      return reply.status(200).send({
         gyms: gyms.map(gym => ({
           ...gym,
           latitude: gym.latitude.toNumber(),
